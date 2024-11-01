@@ -1,0 +1,14 @@
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Headers "Authorization"
+Header always set Access-Control-Allow-Methods 'GET,POST,PATCH,DELETE'
+Header always set Access-Control-Expose-Headers "Content-Security-Policy, Location"
+
+#LIGAR O REWRITE DE URLS
+RewriteEngine On
+
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+#REGRA DE REWRITE TUDO PARA O INDEX
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ ./index.php [QSA,NC]
