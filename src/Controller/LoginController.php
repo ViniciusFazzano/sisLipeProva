@@ -1,4 +1,6 @@
 <?php
+
+namespace Src\Controller;
 class LoginController
 {
     public function index()

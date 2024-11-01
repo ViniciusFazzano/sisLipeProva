@@ -1,8 +1,7 @@
 <?php
+use Src\Controller\LoginController;
 
-require_once 'src/Router.php';
-require_once 'src/Controller/LoginController.php';
-require_once 'src/Controller/AccountController.php';
+require_once 'vendor/autoload.php';
 
 $router = new Router();
 $router->addRoute('/login', LoginController::class, 'index');
