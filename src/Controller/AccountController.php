@@ -1,6 +1,11 @@
 <?php
+namespace Controller;
 class AccountController {
     public function create() {
-        include '../../views/create-account.view.php';
+        Echo "criando conta";
+    }
+
+    public function show($id) {
+        echo "Exibindo conta com ID: " . $id;
     }
 }

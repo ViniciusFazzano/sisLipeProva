@@ -1,0 +1,15 @@
+{
+    "name": "root/html",
+    "autoload": {
+        "psr-4": {
+            "Controller\\": "Controller/",
+            "Router\\": "Router/"
+        }
+    },
+    "authors": [
+        {
+            "name": "vini"
+        }
+    ],
+    "require": {}
+}

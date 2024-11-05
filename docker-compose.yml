@@ -1,39 +1,7 @@
 services:
-  # db:
-  #   image: postgres
-  #   container_name: postgres-container
-  #   restart: always
-  #   environment:
-  #     POSTGRES_PASSWORD: batata
-  #     POSTGRES_DB: postgres
-  #     POSTGRES_USER: vinicao
-  #     PGDATA: /var/lib/postgresql/data
-  #   volumes:
-  #     - /var/lib/postgresql/data
-  #   shm_size: 128mb
-  #   ports:
-  #     - '5432:5432'
-
-  # pgAdmin:
-  #   image: elestio/pgadmin
-  #   container_name: pgadmin-container
-  #   restart: always
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: vinicao@gmail.com
-  #     PGADMIN_DEFAULT_PASSWORD: batata
-  #     PGADMIN_LISTEN_PORT: 8080
-  #   ports:
-  #     - "8080:8080"
-
-  web:
-    build: "/."
-    container_name: php-container
-    restart: always
-    volumes:
-      - .:/var/www/projeto
-    # command: bash && composer du
+  php-apache:
+    build: .
     ports:
-      - "8080:80"
-    # depends_on:
-    #   - db
-    
+      - "8045:80"  # Mapeia a porta 80 do contêiner para a porta 8080 do host
+    volumes:
+      - ./src:/var/www/html  # Sincroniza o código do host com o contêiner

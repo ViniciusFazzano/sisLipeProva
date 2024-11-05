@@ -1,11 +1,11 @@
 <?php
 
-namespace Src\Controller;
+namespace Controller;
 class LoginController
 {
     public function index()
     {
-        include '../../views/login.view.php';
+      Echo "criando login";
     }
 
 }
