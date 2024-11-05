@@ -1,23 +1,23 @@
-# SITE DE INSTALADOR DE UM JOGO
+# SISTEMA DE RECALCULO DE BATIDAS PARA LOJA DE HOMEOPATIA ANIMAL
 
-Este projeto é uma aplicação web simples construída em PHP, utilizando Docker para gerenciamento do ambiente. A aplicação inclui uma tela de login e uma tela para criação de conta, com um sistema de roteamento básico.
+Este projeto é uma aplicação web simples construída em PHP, utilizando Docker para gerenciamento do ambiente. A aplicação tem como objetivo facilitar o recálculo de batidas de produtos homeopáticos para animais, permitindo que os usuários ajustem as dosagens conforme necessário.
 
-## Dependencias e Ferramentas
+## Dependências e Ferramentas
+
 - **BACK-END**
-  * Banco de dados  : Postgres
-  * Composer : psr-4, PDO e PHPUNIT
+  - Banco de dados: Postgres
+  - Composer: psr-4, PDO e PHPUNIT
+
 - **FRONT-END**
-  * HTML,CSS,JAVASCRIPT
+  - HTML, CSS, JavaScript
 
-     
-## Publico alvo
-* Pessoas que gostam de jogos de tiro e gastar dinhero com isso!
+## Público Alvo
 
+- Proprietários de animais que utilizam produtos homeopáticos e profissionais da área veterinária que desejam um sistema prático para recálculo de dosagens.
 
 ## Estrutura de Pastas
 
 A estrutura de pastas do projeto é organizada da seguinte forma:
-
 
 ### Descrição das Pastas e Arquivos
 
