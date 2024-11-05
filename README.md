@@ -30,6 +30,5 @@ A estrutura de pastas do projeto é organizada da seguinte forma:
   - **docker-compose.yml**: Configura os serviços do Docker, incluindo o contêiner do PHP/Apache.
   - **composer.json**: Define as dependências do PHP para o projeto, permitindo a instalação de bibliotecas e frameworks necessários.
 
-## Configuração do Ambiente
-
-Para executar este projeto, você precisará ter o Docker e o Docker Compose instalados em sua máquina.
+## DRAW DO SISTEMA
+![image](https://github.com/user-attachments/assets/faa8de95-c64a-4651-8046-442b10472dca)
