@@ -2,6 +2,26 @@ services:
   php-apache:
     build: .
     ports:
-      - "8045:80"  # Mapeia a porta 80 do contêiner para a porta 8080 do host
+      - "8045:80" 
     volumes:
-      - ./src:/var/www/html  # Sincroniza o código do host com o contêiner
+      - ./src:/var/www/html
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=meubanco
+      - DATABASE_USER=meuusuario
+      - DATABASE_PASSWORD=minhasenha
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: meubanco
+      POSTGRES_USER: meuusuario
+      POSTGRES_PASSWORD: minhasenha
+    ports:
+      - "5442:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data  
+volumes:
+  pgdata:
