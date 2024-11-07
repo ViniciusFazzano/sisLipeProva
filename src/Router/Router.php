@@ -4,7 +4,7 @@ namespace Router;
 class Router {
     private $routes = [];
 
-    // Adiciona a rota com suporte ao método HTTP
+    
     public function addRoute($uriPattern, $controller, $method, $httpMethod = 'GET') {
         $uriPattern = preg_replace('/:\w+/', '(\w+)', $uriPattern);
         $this->routes[$httpMethod][$uriPattern] = [$controller, $method];
@@ -15,14 +15,14 @@ class Router {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         if (!isset($this->routes[$requestMethod])) {
-            http_response_code(405); // Método não permitido
+            http_response_code(405); 
             echo "405 Method Not Allowed";
             return;
         }
 
         foreach ($this->routes[$requestMethod] as $uriPattern => [$controller, $method]) {
             if (preg_match("#^$uriPattern$#", $uri, $matches)) {
-                array_shift($matches); // Remove a URL completa da correspondência
+                array_shift($matches); 
                 return (new $controller())->$method(...$matches);
             }
         }

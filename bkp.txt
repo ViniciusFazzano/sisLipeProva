@@ -1,0 +1,19 @@
+CREATE TABLE usuario (
+    id SERIAL PRIMARY KEY,       -- Identificador único, gerado automaticamente
+    nome VARCHAR(100) NOT NULL,  -- Nome do usuário, campo obrigatório
+    email VARCHAR(100) NOT NULL   -- Email do usuário, obrigatório e único
+
+);
+
+select * from usuario
+
+
+CREATE TABLE resultados (
+    id SERIAL PRIMARY KEY,         -- Identificador único para cada registro
+    qnt_caixa INT,                 -- Quantidade de caixas
+    gramas_homeopatia_saco INT,    -- Gramas de homeopatia por saco
+    kilos_homeopatia_batida INT,  -- Quilos de homeopatia por batida
+    peso_total INT,                -- Peso total
+    qnt_batida INT,                -- Quantidade de batidas
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Data e hora de criação (automático)
+);
