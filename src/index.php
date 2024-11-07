@@ -14,8 +14,8 @@ $router->addRoute('/novo-login', AccountController::class, 'update', 'PUT');
 $router->addRoute('/novo-login', AccountController::class, 'delete', 'DELETE');
 
 $router->addRoute('/calculo', HomeopatiaCalculator::class, 'calcular', 'POST');
-$router->addRoute('/calculo', HomeopatiaCalculator::class, 'update', 'PUT');
-$router->addRoute('/calculo', HomeopatiaCalculator::class, 'delete', 'DELETE');
+$router->addRoute('/calculo/:id', HomeopatiaCalculator::class, 'update', 'PUT');
+$router->addRoute('/calculo/:id', HomeopatiaCalculator::class, 'delete', 'DELETE');
 $router->addRoute('/calculo', HomeopatiaCalculator::class, 'getList', 'GET');
 $router->addRoute('/calculo/:id', HomeopatiaCalculator::class, 'getId', 'GET');
 
