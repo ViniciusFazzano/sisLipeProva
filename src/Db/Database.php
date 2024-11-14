@@ -8,7 +8,7 @@ use PDOException;
 class Database
 {
     private $host = '192.168.15.167';
-    private $port = '5442'; // Separando a porta
+    private $port = '5442'; 
     private $dbname = 'postgres';
     private $username = 'postgres';
     private $password = 'postgres';
@@ -17,7 +17,7 @@ class Database
     public function __construct()
     {
         try {
-            // Adicionando a porta corretamente no DSN
+            
             $this->pdo = new PDO("pgsql:host={$this->host};port={$this->port};dbname={$this->dbname}", $this->username, $this->password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
@@ -56,7 +56,7 @@ class Database
     public function insert($sql, $params = [])
     {
         $stmt = $this->query($sql, $params);
-        //    print_r ($params);
+        
         return $stmt ? $this->pdo->lastInsertId() : false;
     }
 

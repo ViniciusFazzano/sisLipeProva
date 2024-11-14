@@ -1,20 +1,16 @@
-document.getElementById("calculoForm").addEventListener("submit", function (event) {
-  event.preventDefault(); // Evita o envio padrão do formulário
+document.getElementById("formulario").addEventListener("submit", function (event) {
+  event.preventDefault(); 
 
-  // Obtém os dados do formulário
   const formData = {
-    qnt_saco: document.getElementById("qnt_saco").value,
-    kilo_batida: document.getElementById("kilo_batida").value,
-    kilo_saco: document.getElementById("kilo_saco").value,
-    qnt_cabeca: document.getElementById("qnt_cabeca").value,
-    consumo_cabeca: document.getElementById("consumo_cabeca").value,
-    grama_homeopatia_cabeca: document.getElementById("grama_homeopatia_cabeca").value,
-    gramas_homeopatia_caixa: document.getElementById("gramas_homeopatia_caixa").value
+    qnt_saco: document.getElementById("varQntSaco").value,
+    kilo_batida: document.getElementById("varKiloBatida").value,
+    kilo_saco: document.getElementById("varKiloSaco").value,
+    qnt_cabeca: document.getElementById("varQntCabeca").value,
+    consumo_cabeca: document.getElementById("varConsumoCabeca").value,
+    grama_homeopatia_cabeca: document.getElementById("varGramaHomeopatiaCabeca").value,
+    gramas_homeopatia_caixa: document.getElementById("varGramasHomeopatiaCaixa").value
   };
 
-  console.log( JSON.stringify(formData));
-
-  // Envia os dados usando fetch
   fetch('http://localhost:8080/calculo', {
     method: "POST",
     headers: {
@@ -23,18 +19,34 @@ document.getElementById("calculoForm").addEventListener("submit", function (even
     body: JSON.stringify(formData)
   })
     .then(response => {
-      // Verifica se o código de status é 200
-      // console.log(response.json())
       if (response.status === 200) {
-        return response.json()
-        // alert("fez a requisicao.");
-        // window.location.href = "../../front/pages/calculo.html";
+        return response.json();
       } else {
+        alert("Falha na requisição: " + response.status)
         throw new Error("Falha na requisição: " + response.status);
       }
     })
     .then(data => {
-      console.log(data)
+      console.log(data);
+      alert(JSON.stringify(data.message));
+
+      const items = data.items;
+      document.getElementById("varQntSaco").value = items.varQntSaco;
+      document.getElementById("varKiloBatida").value = items.varKiloBatida;
+      document.getElementById("varKiloSaco").value = items.varKiloSaco;
+      document.getElementById("varQntCabeca").value = items.varQntCabeca;
+      document.getElementById("varConsumoCabeca").value = items.varConsumoCabeca;
+      document.getElementById("varGramaHomeopatiaCabeca").value = items.varGramaHomeopatiaCabeca;
+      document.getElementById("varGramasHomeopatiaCaixa").value = items.varGramasHomeopatiaCaixa;
+
+      document.getElementById("qntBatida").value = items.qntBatida;
+      document.getElementById("qntCaixa").value = items.qntCaixa;
+      document.getElementById("varGramasHomeopatiaSaco").value = items.varGramasHomeopatiaSaco;
+      document.getElementById("varKiloHomeopatiaBatida").value = items.varKiloHomeopatiaBatida;
+      document.getElementById("pesoTotal").value = items.pesoTotal;
+      document.getElementById("consumoCabecaKilo").value = items.consumoCabecaKilo;
+      document.getElementById("cabecaSaco").value = items.cabecaSaco;
+
     })
     .catch(error => {
       console.error("Erro:", error);
