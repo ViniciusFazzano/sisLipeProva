@@ -5,17 +5,20 @@ namespace Banco;
 use PDO;
 use PDOException;
 
-class Database {
-    private $host = 'db';
+class Database
+{
+    private $host = '192.168.15.167';
+    private $port = '5442'; // Separando a porta
     private $dbname = 'postgres';
-    private $username = 'vini';
-    private $password = 'batata';
+    private $username = 'postgres';
+    private $password = 'postgres';
     private $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         try {
-        
-            $this->pdo = new PDO("pgsql:host={$this->host};dbname={$this->dbname}", $this->username, $this->password);
+            // Adicionando a porta corretamente no DSN
+            $this->pdo = new PDO("pgsql:host={$this->host};port={$this->port};dbname={$this->dbname}", $this->username, $this->password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo "Erro de conexão: " . $e->getMessage();
@@ -23,7 +26,8 @@ class Database {
     }
 
 
-    public function query($sql, $params = []) {
+    public function query($sql, $params = [])
+    {
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
@@ -35,37 +39,43 @@ class Database {
     }
 
 
-    public function fetchAll($sql, $params = []) {
+    public function fetchAll($sql, $params = [])
+    {
         $stmt = $this->query($sql, $params);
         return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
     }
 
 
-    public function fetch($sql, $params = []) {
+    public function fetch($sql, $params = [])
+    {
         $stmt = $this->query($sql, $params);
         return $stmt ? $stmt->fetch(PDO::FETCH_ASSOC) : null;
     }
 
 
-    public function insert($sql, $params = []) {
+    public function insert($sql, $params = [])
+    {
         $stmt = $this->query($sql, $params);
-    //    print_r ($params);
+        //    print_r ($params);
         return $stmt ? $this->pdo->lastInsertId() : false;
     }
 
 
-    public function update($sql, $params = []) {
+    public function update($sql, $params = [])
+    {
         $stmt = $this->query($sql, $params);
         return $stmt ? $stmt->rowCount() : 0;
     }
 
 
-    public function delete($sql, $params = []) {
+    public function delete($sql, $params = [])
+    {
         return $this->update($sql, $params);
     }
 
 
-    public function close() {
+    public function close()
+    {
         $this->pdo = null;
     }
 }

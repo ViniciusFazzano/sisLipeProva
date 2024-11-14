@@ -17,3 +17,23 @@ CREATE TABLE resultados (
     qnt_batida INT,                -- Quantidade de batidas
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Data e hora de criação (automático)
 );
+
+
+CREATE TABLE resultados (
+    id SERIAL PRIMARY KEY,         -- Identificador único para cada registro
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Data e hora de criação (automático)
+	var_qnt_saco INTEGER,
+    var_kilo_batida NUMERIC,
+    var_kilo_saco INTEGER,
+    var_qnt_cabeca INTEGER,
+    var_consumo_cabeca INTEGER,
+    var_grama_homeopatia_cabeca INTEGER,
+    var_gramas_homeopatia_caixa INTEGER,
+    qnt_batida NUMERIC,
+    qnt_caixa INTEGER,
+    var_gramas_homeopatia_saco INTEGER,
+    var_kilo_homeopatia_batida NUMERIC,
+    peso_total INTEGER,
+    consumo_cabeca_kilo NUMERIC,
+    cabeca_saco INTEGER
+	);

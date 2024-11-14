@@ -12,23 +12,29 @@ document.getElementById("calculoForm").addEventListener("submit", function (even
     gramas_homeopatia_caixa: document.getElementById("gramas_homeopatia_caixa").value
   };
 
+  console.log( JSON.stringify(formData));
+
   // Envia os dados usando fetch
-  fetch('http://localhost:8099/calculo', {
+  fetch('http://localhost:8080/calculo', {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(formData)
   })
-    .then(response => response.json())
-    .then(data => {
-      // Manipula a resposta do servidor
-      if (data.success) {
-        alert("Cálculo realizado com sucesso!");
-        console.log(data.resultados); // Exemplo de como lidar com os dados
+    .then(response => {
+      // Verifica se o código de status é 200
+      // console.log(response.json())
+      if (response.status === 200) {
+        return response.json()
+        // alert("fez a requisicao.");
+        // window.location.href = "../../front/pages/calculo.html";
       } else {
-        alert("Erro ao realizar o cálculo. Tente novamente.");
+        throw new Error("Falha na requisição: " + response.status);
       }
+    })
+    .then(data => {
+      console.log(data)
     })
     .catch(error => {
       console.error("Erro:", error);

@@ -12,7 +12,6 @@ class HomeopatiaCalculator
 
         $body = json_decode(file_get_contents('php://input'), true);
 
-
         if (!isset($body['qnt_saco'], $body['kilo_batida'], $body['kilo_saco'], $body['qnt_cabeca'], $body['consumo_cabeca'], $body['grama_homeopatia_cabeca'], $body['gramas_homeopatia_caixa'])) {
             throw new Exception("Dados insuficientes para calcular a homeopatia.");
         }
@@ -51,18 +50,58 @@ class HomeopatiaCalculator
             $qntCaixa = (($varGramasHomeopatiaSaco / 1000) * $varQntSaco) / ($varGramasHomeopatiaCaixa / 1000);
         }
 
+        $resultados = [
+            $varQntSaco,
+            $varKiloBatida,
+            $varKiloSaco,
+            $varQntCabeca,
+            $varConsumoCabeca,
+            $varGramaHomeopatiaCabeca,
+            $varGramasHomeopatiaCaixa,
+            $qntBatida,
+            $qntCaixa,
+            $varGramasHomeopatiaSaco,
+            $varKiloHomeopatiaBatida,
+            $pesoTotal,
+            $consumoCabecaKilo,
+            $cabecaSaco
+        ];
 
-        $resultados[1] = (int) $qntCaixa;
-        $resultados[2] = (int) $varGramasHomeopatiaSaco;
-        $resultados[3] = (int) $varKiloHomeopatiaBatida;
-        $resultados[4] = (int) $pesoTotal;
-        $resultados[5] = (int) $qntBatida;
+
+        // $resultados[1] = (int) $qntCaixa;
+        // $resultados[2] = (int) $varGramasHomeopatiaSaco;
+        // $resultados[3] = (int) $varKiloHomeopatiaBatida;
+        // $resultados[4] = (int) $pesoTotal;
+        // $resultados[5] = (int) $qntBatida;
 
 
         self::salvarResultadoNoBanco($resultados);
 
+        http_response_code(200);
+        header("Content-Type: application/json");
 
-        echo json_encode(['message' => 'Calculo realizado com sucesso.']);
+        echo json_encode(
+            [
+                'message' => 'Calculo realizado com sucesso.',
+                "items" => [
+                    "varQntSaco" => $varQntSaco,
+                    "varKiloBatida" => $varKiloBatida,
+                    "varKiloSaco" => $varKiloSaco,
+                    "varQntCabeca" => $varQntCabeca,
+                    "varConsumoCabeca" => $varConsumoCabeca,
+                    "varGramaHomeopatiaCabeca" => $varGramaHomeopatiaCabeca,
+                    "varGramasHomeopatiaCaixa" => $varGramasHomeopatiaCaixa,
+                    "qntBatida" => $qntBatida,
+                    "qntCaixa" => $qntCaixa,
+                    "varGramasHomeopatiaSaco" => $varGramasHomeopatiaSaco,
+                    "varKiloHomeopatiaBatida" => $varKiloHomeopatiaBatida,
+                    "pesoTotal" => $pesoTotal,
+                    "consumoCabecaKilo" => $consumoCabecaKilo,
+                    "cabecaSaco" => $cabecaSaco
+                ]
+            ],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
     }
     private static function salvarResultadoNoBanco($resultados)
     {
@@ -70,14 +109,24 @@ class HomeopatiaCalculator
             $db = new Database();
 
             $sql = $db->insert(
-                "INSERT INTO resultados (qnt_caixa, gramas_homeopatia_saco, kilos_homeopatia_batida, peso_total, qnt_batida) VALUES (?, ?, ?, ?, ?)",
-                [
-                    $resultados[1],
-                    $resultados[2],
-                    $resultados[3],
-                    $resultados[4],
-                    $resultados[5]
-                ]
+                "INSERT INTO resultados (
+                var_qnt_saco,
+                var_kilo_batida,
+                var_kilo_saco,
+                var_qnt_cabeca,
+                var_consumo_cabeca,
+                var_grama_homeopatia_cabeca,
+                var_gramas_homeopatia_caixa,
+                qnt_batida,
+                qnt_caixa,
+                var_gramas_homeopatia_saco,
+                var_kilo_homeopatia_batida,
+                peso_total,
+                consumo_cabeca_kilo,
+                cabeca_saco
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?)",
+
+                $resultados
             );
 
         } catch (Exception $e) {

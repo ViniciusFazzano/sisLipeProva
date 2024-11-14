@@ -1,0 +1,131 @@
+/* Estilo de fundo da tela */
+body {
+    background: url('../assets/foto\ inicio.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Estilos para o container de login */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Caixa de login */
+.login-box {
+    background-color: rgba(146, 98, 98, 0.404); /* Cinza com mais opacidade */
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Sombra para mais destaque */
+}
+
+/* Título do formulário */
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+/* Estilo dos grupos de inputs */
+.input-group {
+    margin-bottom: 20px;
+}
+
+/* Estilo para os rótulos de input */
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Estilo dos inputs */
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* Estilo do botão de login */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #000000;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #c70000;
+}
+
+/* Estilo do botão de criar conta */
+.create-account {
+    width: 100%;
+    padding: 12px;
+    background-color: #0000009a; /* Fundo escuro */
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.create-account:hover {
+    background-color: #0056b3; /* Fundo mais claro ao passar o mouse */
+}
+
+/* Estilo do modal de criação de conta */
+.modal-content {
+    border-radius: 10px;
+}
+
+/* Adiciona o estilo personalizado ao modal */
+.modal-header {
+    background-color: #000;
+    color: #fff;
+}
+
+.modal-footer {
+    background-color: #f8f9fa;
+}
+
+/* Ajustes no formulário dentro do modal */
+.form-label  {
+    font-size: 1.1em;
+    color: #000000 !important;
+}
+
+
+#modalCreateAccount input {
+    font-size: 1em;
+    padding: 10px;
+}
+
+/* Estilo para o botão dentro do modal */
+#modalCreateAccount .btn {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    width: 100%;
+}
+
+#modalCreateAccount .btn:hover {
+    background-color: #c70000;
+}

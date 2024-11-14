@@ -1,0 +1,15 @@
+$varQntSaco
+$varKiloBatida
+$varKiloSaco
+$varQntCabeca
+$varConsumoCabeca
+$varGramaHomeopatiaCabeca
+$varGramasHomeopatiaCaixa
+$resultados
+$qntBatida
+$qntCaixa
+$varGramasHomeopatiaSaco
+$varKiloHomeopatiaBatida
+$pesoTotal
+$consumoCabecaKilo
+$cabecaSaco

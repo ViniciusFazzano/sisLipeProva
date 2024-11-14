@@ -8,7 +8,7 @@ use Router\Router;
 require_once 'vendor/autoload.php';
 
 $router = new Router();
-$router->addRoute('/login', LoginController::class, 'index', 'GET');
+$router->addRoute('/login', LoginController::class, 'index', 'POST');
 $router->addRoute('/novo-login', AccountController::class, 'create', 'POST');
 $router->addRoute('/novo-login', AccountController::class, 'update', 'PUT');
 $router->addRoute('/novo-login', AccountController::class, 'delete', 'DELETE');
