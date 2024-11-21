@@ -6,14 +6,31 @@ use Banco\Database;
 use Exception;
 class LoginController
 {
+  private Database $db;
 
-  public function index()
+  public function __construct($database = null)
   {
-    $body = json_decode(file_get_contents('php://input'), true);
+    if ($database === null)
+      $this->db = new Database();
+    else
+      $this->db = $database;
+  }
+
+  public function getBody($input = null)
+  {
+    if ($input === null) {
+      $input = file_get_contents('php://input');
+    }
+    return json_decode($input, true);
+  }
+
+  public function index($input = null)
+  {
+    $body = $this->getBody($input);
 
     if (!isset($body['nome'])) {
       http_response_code(400);
-      echo json_encode(['error' => 'Nome é obrigatório.']);
+      echo json_encode(['error' => 'Nome e obrigatorio.']);
       return;
     }
 
@@ -26,12 +43,12 @@ class LoginController
     }
 
     try {
-      $db = new Database();
 
-      $user = $db->fetch("SELECT * FROM usuario WHERE nome = ?", [$nome]);
+
+      $user = $this->db->fetch("SELECT * FROM usuario WHERE nome = ?", [$nome]);
       if (!$user) {
         http_response_code(401);
-        echo json_encode(['error' => 'Nome não encontrado.']);
+        echo json_encode(['error' => 'Nome nao encontrado.']);
         return;
       }
 

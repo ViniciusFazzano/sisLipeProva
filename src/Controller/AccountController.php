@@ -6,21 +6,38 @@ use Exception;
 use PDO;
 class AccountController
 {
-    public function create()
-    {
+    private Database $db;
 
-        $body = json_decode(file_get_contents('php://input'), true);
+    public function __construct($database = null)
+    {
+        if ($database === null)
+            $this->db = new Database();
+        else
+            $this->db = $database;
+    }
+
+    public function getBody($input = null)
+    {
+        if ($input === null) {
+            $input = file_get_contents('php://input');
+        }
+        return json_decode($input, true);
+    }
+
+
+    public function create($input = null)
+    {
+        $body = $this->getBody($input);
 
 
         if (!isset($body['nome']) || !isset($body['email'])) {
             http_response_code(400);
-            echo json_encode(['error' => 'Nome e email são obrigatórios.']);
+            echo json_encode(['error' => 'Nome e email sao obrigatorios.']);
             return;
         }
 
         $nome = trim($body['nome']);
         $email = trim($body['email']);
-
 
         if (strlen($nome) < 3) {
             http_response_code(400);
@@ -28,27 +45,25 @@ class AccountController
             return;
         }
 
-
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             http_response_code(400);
-            echo json_encode(['error' => 'Email inválido.']);
+            echo json_encode(['error' => 'Email invalido.']);
             return;
         }
 
         try {
-            $db = new Database();
+            // $this->db = new Database();
 
 
-            $existingUser = $db->fetch("SELECT * FROM usuario WHERE email = ?", [$email]);
+            $existingUser = $this->db->fetch('SELECT * FROM usuario WHERE email = ?', [$email]);
             if ($existingUser) {
                 http_response_code(409);
-                echo json_encode(['error' => 'Email já cadastrado.']);
+                echo json_encode(['error' => 'Email ja cadastrado.']);
                 return;
             }
 
-
-            $db->insert(
-                "INSERT INTO usuario (nome, email) VALUES (?, ?)",
+            $this->db->insert(
+                'INSERT INTO usuario (nome, email) VALUES (?, ?)',
                 [$nome, $email]
             );
 
@@ -60,13 +75,13 @@ class AccountController
             echo json_encode(['error' => 'Erro interno no servidor: ' . $e->getMessage()]);
         }
     }
-    public function update()
+    public function update($input = null)
     {
-        $body = json_decode(file_get_contents('php://input'), true);
+        $body = $this->getBody($input);
 
         if (!isset($body['nome']) || (!isset($body['novo_nome']) && !isset($body['novo_email']))) {
             http_response_code(400);
-            echo json_encode(['error' => 'Nome, novo_nome ou novo_email são obrigatórios.']);
+            echo json_encode(['error' => 'Nome, novo_nome ou novo_email sao obrigatorios.']);
             return;
         }
 
@@ -75,61 +90,57 @@ class AccountController
         $novoEmail = isset($body['novo_email']) ? trim($body['novo_email']) : null;
 
         try {
-            $db = new Database();
+            // $this->db = new Database();
 
-            $user = $db->fetch("SELECT * FROM usuario WHERE nome = ?", [$nome]);
+            $user = $this->db->fetch('SELECT * FROM usuario WHERE nome = ?', [$nome]);
             if (!$user) {
                 http_response_code(404);
-                echo json_encode(['error' => 'Usuário não encontrado.']);
+                echo json_encode(['error' => 'Usuario nao encontrado.']);
                 return;
             }
 
-            if ($novoNome) {
-                $db->update("UPDATE usuario SET nome = ? WHERE nome = ?", [$novoNome, $nome]);
+            if (!filter_var($novoEmail, FILTER_VALIDATE_EMAIL)) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Email invalido.']);
+                return;
             }
 
-            if ($novoEmail) {
-                if (!filter_var($novoEmail, FILTER_VALIDATE_EMAIL)) {
-                    http_response_code(400);
-                    echo json_encode(['error' => 'Email inválido.']);
-                    return;
-                }
-                $db->update("UPDATE usuario SET email = ? WHERE nome = ?", [$novoEmail, $nome]);
-            }
+            $this->db->update('UPDATE usuario SET email = ?, nome = ? WHERE nome = ?', [$novoEmail,$novoNome, $nome]);
+
 
             http_response_code(200);
-            echo json_encode(['message' => 'Usuário atualizado com sucesso.']);
+            echo json_encode(['message' => 'Usuario atualizado com sucesso.']);
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => 'Erro interno no servidor: ' . $e->getMessage()]);
         }
     }
-    public function delete()
+    public function delete($input = null)
     {
-        $body = json_decode(file_get_contents('php://input'), true);
+        $body = $this->getBody($input);
 
         if (!isset($body['nome'])) {
             http_response_code(400);
-            echo json_encode(['error' => 'Nome é obrigatório.']);
+            echo json_encode(['error' => 'Nome e obrigatorio.']);
             return;
         }
 
         $nome = trim($body['nome']);
 
         try {
-            $db = new Database();
+            // $this->db = new Database();
 
-            $user = $db->fetch("SELECT * FROM usuario WHERE nome = ?", [$nome]);
+            $user = $this->db->fetch('SELECT * FROM usuario WHERE nome = ?', [$nome]);
             if (!$user) {
                 http_response_code(404);
-                echo json_encode(['error' => 'Usuário não encontrado.']);
+                echo json_encode(['error' => 'Usuario nao encontrado.']);
                 return;
             }
 
-            $db->delete("DELETE FROM usuario WHERE nome = ?", [$nome]);
+            $this->db->delete('DELETE FROM usuario WHERE nome = ?', [$nome]);
 
             http_response_code(200);
-            echo json_encode(['message' => 'Usuário deletado com sucesso.']);
+            echo json_encode(['message' => 'Usuario deletado com sucesso.']);
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => 'Erro interno no servidor: ' . $e->getMessage()]);

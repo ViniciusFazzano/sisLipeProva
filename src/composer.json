@@ -4,7 +4,7 @@
         "psr-4": {
             "Controller\\": "Controller/",
             "Banco\\": "Db/",
-            "Router\\": "Router/" 
+            "Router\\": "Router/"
         }
     },
     "authors": [
@@ -12,5 +12,7 @@
             "name": "vini"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^11.4"
+    }
 }

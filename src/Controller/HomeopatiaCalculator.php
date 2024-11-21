@@ -7,12 +7,30 @@ use Exception;
 
 class HomeopatiaCalculator
 {
-    public static function calcular()
+    private Database $db;
+
+    public function __construct($database = null)
+    {
+        if ($database === null)
+            $this->db = new Database();
+        else
+            $this->db = $database;
+    }
+
+    public function getBody($input = null)
+    {
+        if ($input === null) {
+            $input = file_get_contents('php://input');
+        }
+        return json_decode($input, true);
+    }
+
+    public function calcular($input = null)
     {
         http_response_code(200);
         header("Content-Type: application/json");
         try {
-            $body = json_decode(file_get_contents('php://input'), true);
+            $body = $this->getBody($input);
 
 
             $varQntSaco = empty($body['qnt_saco']) ? 0 : $body['qnt_saco'];
@@ -96,7 +114,7 @@ class HomeopatiaCalculator
                 ],
                 JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
             );
-            exit;
+            return;
         }
 
         echo json_encode(
@@ -122,12 +140,12 @@ class HomeopatiaCalculator
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
         );
     }
-    private static function salvarResultadoNoBanco($resultados)
+    private function salvarResultadoNoBanco($resultados)
     {
         try {
-            $db = new Database();
 
-            $sql = $db->insert(
+
+            $sql = $this->db->insert(
                 "INSERT INTO resultados (
                 var_qnt_saco,
                 var_kilo_batida,
@@ -152,32 +170,32 @@ class HomeopatiaCalculator
             echo 'Erro ao salvar resultados: ' . $e->getMessage();
         }
     }
-    public static function getList()
+    public function getList()
     {
         try {
-            $db = new Database();
+
             $sql = "SELECT * FROM resultados";
-            $resultados = $db->fetchAll($sql);
+            $resultados = $this->db->fetchAll($sql);
             echo json_encode($resultados);
         } catch (Exception $e) {
             echo 'Erro ao buscar os resultados: ' . $e->getMessage();
         }
     }
-    public static function getId($id)
+    public function getId($id)
     {
         try {
-            $db = new Database();
+
             $sql = "SELECT * FROM resultados WHERE id = ?";
-            $resultados = $db->fetch($sql, [$id]);
+            $resultados = $this->db->fetch($sql, [$id]);
             echo $resultados ? json_encode($resultados) : "Resultado não encontrado.";
         } catch (Exception $e) {
             echo 'Erro ao buscar o resultado: ' . $e->getMessage();
         }
     }
-    public static function update($id)
+    public function update($id, $input = null)
     {
         try {
-            $body = json_decode(file_get_contents('php://input'), true);
+            $body = $this->getBody($input);
 
 
             if (!isset($body['qnt_saco'], $body['kilo_batida'], $body['kilo_saco'], $body['qnt_cabeca'], $body['consumo_cabeca'], $body['grama_homeopatia_cabeca'], $body['gramas_homeopatia_caixa'])) {
@@ -225,8 +243,8 @@ class HomeopatiaCalculator
             $resultados[4] = (int) $pesoTotal;
             $resultados[5] = (int) $qntBatida;
 
-            $db = new Database();
-            $db->update(
+
+            $this->db->update(
                 "UPDATE resultados SET qnt_caixa = ?, gramas_homeopatia_saco = ?, kilos_homeopatia_batida = ?, peso_total = ?, qnt_batida = ? WHERE id = ?",
                 [
                     $resultados[1],
@@ -242,11 +260,11 @@ class HomeopatiaCalculator
             echo 'Erro ao atualizar o resultado: ' . $e->getMessage();
         }
     }
-    public static function delete($id)
+    public function delete($id)
     {
         try {
-            $db = new Database();
-            $db->delete("DELETE FROM resultados WHERE id = ?", [$id]);
+
+            $this->db->delete("DELETE FROM resultados WHERE id = ?", [$id]);
             echo "Resultado deletado com sucesso.";
         } catch (Exception $e) {
             echo 'Erro ao deletar o resultado: ' . $e->getMessage();
