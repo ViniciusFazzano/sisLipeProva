@@ -53,7 +53,6 @@ class HomeopatiaCalculatorTest extends TestCase
     public function testUpdateSuccess()
     {
         $this->dbMock
-            ->expects($this->once())
             ->method('update')
             ->with(
                 "UPDATE resultados SET qnt_caixa = ?, gramas_homeopatia_saco = ?, kilos_homeopatia_batida = ?, peso_total = ?, qnt_batida = ? WHERE id = ?",
@@ -75,60 +74,60 @@ class HomeopatiaCalculatorTest extends TestCase
         $this->controller->update(1, $body);
     }
 
-    // public function testDeleteSuccess()
-    // {
-    //     $this->dbMock
-    //         ->expects($this->once())
-    //         ->method('delete')
-    //         ->with("DELETE FROM resultados WHERE id = ?", [1]);
+    public function testDeleteSuccess()
+    {
+        $this->dbMock
+            ->expects($this->once())
+            ->method('delete')
+            ->with("DELETE FROM resultados WHERE id = ?", [1]);
 
-    //     $this->expectOutputString("Resultado deletado com sucesso.");
+        $this->expectOutputString("Resultado deletado com sucesso.");
 
-    //     $this->controller->delete(1);
-    // }
+        $this->controller->delete(1);
+    }
 
-    // public function testGetListSuccess()
-    // {
-    //     $this->dbMock
-    //         ->expects($this->once())
-    //         ->method('fetchAll')
-    //         ->with("SELECT * FROM resultados")
-    //         ->willReturn([
-    //             ['id' => 1, 'var_qnt_saco' => 10, 'var_kilo_batida' => 20],
-    //             ['id' => 2, 'var_qnt_saco' => 15, 'var_kilo_batida' => 25],
-    //         ]);
+    public function testGetListSuccess()
+    {
+        $this->dbMock
+            ->expects($this->once())
+            ->method('fetchAll')
+            ->with("SELECT * FROM resultados")
+            ->willReturn([
+                ['id' => 1, 'var_qnt_saco' => 10, 'var_kilo_batida' => 20],
+                ['id' => 2, 'var_qnt_saco' => 15, 'var_kilo_batida' => 25],
+            ]);
 
-    //     $this->expectOutputString(json_encode([
-    //         ['id' => 1, 'var_qnt_saco' => 10, 'var_kilo_batida' => 20],
-    //         ['id' => 2, 'var_qnt_saco' => 15, 'var_kilo_batida' => 25],
-    //     ]));
+        $this->expectOutputString(json_encode([
+            ['id' => 1, 'var_qnt_saco' => 10, 'var_kilo_batida' => 20],
+            ['id' => 2, 'var_qnt_saco' => 15, 'var_kilo_batida' => 25],
+        ]));
 
-    //     $this->controller->getList();
-    // }
+        $this->controller->getList();
+    }
 
-    // public function testGetIdSuccess()
-    // {
-    //     $this->dbMock
-    //         ->expects($this->once())
-    //         ->method('fetch')
-    //         ->with("SELECT * FROM resultados WHERE id = ?", [1])
-    //         ->willReturn(['id' => 1, 'var_qnt_saco' => 10, 'var_kilo_batida' => 20]);
+    public function testGetIdSuccess()
+    {
+        $this->dbMock
+            ->expects($this->once())
+            ->method('fetch')
+            ->with("SELECT * FROM resultados WHERE id = ?", [1])
+            ->willReturn(['id' => 1, 'var_qnt_saco' => 10, 'var_kilo_batida' => 20]);
 
-    //     $this->expectOutputString(json_encode(['id' => 1, 'var_qnt_saco' => 10, 'var_kilo_batida' => 20]));
+        $this->expectOutputString(json_encode(['id' => 1, 'var_qnt_saco' => 10, 'var_kilo_batida' => 20]));
 
-    //     $this->controller->getId(1);
-    // }
+        $this->controller->getId(1);
+    }
 
-    // public function testGetIdNotFound()
-    // {
-    //     $this->dbMock
-    //         ->expects($this->once())
-    //         ->method('fetch')
-    //         ->with("SELECT * FROM resultados WHERE id = ?", [1])
-    //         ->willReturn(null);
+    public function testGetIdNotFound()
+    {
+        $this->dbMock
+            ->expects($this->once())
+            ->method('fetch')
+            ->with("SELECT * FROM resultados WHERE id = ?", [1])
+            ->willReturn(null);
 
-    //     $this->expectOutputString("Resultado não encontrado.");
+        $this->expectOutputString("Resultado não encontrado.");
 
-    //     $this->controller->getId(1);
-    // }
+        $this->controller->getId(1);
+    }
 }
